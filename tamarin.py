@@ -4,9 +4,9 @@ from PIL import Image
 CD = os.path.dirname(os.path.realpath(__file__))
 INPUT = os.path.join(CD, "input")
 OUTPUT = os.path.join(CD, "output")
-max_dist = 5
-pixels_to_modify = 10 
-times = 1 
+max_dist = 20 
+pixels_to_modify = 100 
+times = 10 
 
 def tamarin():
     print "Type DELETE OUTPUT to delete output folder and continue"
@@ -51,7 +51,8 @@ def mutate(path):
         #print "pos is %d" % pos
 
     image.putdata(data)
-    filename = get_new_name(realpath)
+    filename = get_new_name(path)
+    print os.path.join(OUTPUT, filename)
     image.save(os.path.join(OUTPUT, filename))
         
 def swap(n, pos, data):
