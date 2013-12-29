@@ -9,6 +9,12 @@ pixels_to_modify = 10
 times = 1 
 
 def tamarin():
+    print "Type DELETE OUTPUT to delete output folder and continue"
+    if raw_input().lower() != "delete output":
+        print "Way to fail."
+        exit()
+
+    reset_output()
     images = os.listdir(INPUT) 
     done = 0
     total = times*len(images)
@@ -18,6 +24,15 @@ def tamarin():
             mutate(image)
             done += 1
             print "%d%% done." % (float(done)/float(total)*100.0)
+
+def reset_output():
+    try:
+        shutil.rmtree(OUTPUT)
+    except Exception:
+        pass
+
+    os.makedirs(OUTPUT)
+    print "Output has been reset."
 
 def output(image):
     realpath = os.path.join(INPUT, image)
@@ -33,10 +48,10 @@ def mutate(path):
         pos = random.randint(0, len(data))
         n = random.choice(get_neighbors(pos, size[0], len(data)))
         swap(n, pos, data)
-        print "pos is %d" % pos
+        #print "pos is %d" % pos
 
     image.putdata(data)
-    image.save(realpath)
+    image.save(get_new_name(realpath))
         
 def swap(n, pos, data):
     data[n], data[pos] = data[pos], data[n]
@@ -54,6 +69,10 @@ def get_neighbors(a, width, total_len):
              works.append(b)
 
     return works
+
+def get_new_name(realpath):
+    filename, extension = os.path.splitext(realpath)
+    return filename + "_edit" + extension
     
     
 tamarin()
