@@ -39,8 +39,8 @@ def output(image):
     shutil.copy(realpath, OUTPUT)
 
 def mutate(path):
-    realpath = os.path.join(INPUT, path)
-    image = Image.open(realpath)
+    realpath = os.path.join(INPUT, path) 
+    image = Image.open(realpath) 
     data = list(image.getdata())
     size = image.size
 
@@ -51,7 +51,8 @@ def mutate(path):
         #print "pos is %d" % pos
 
     image.putdata(data)
-    image.save(get_new_name(realpath))
+    filename = get_new_name(realpath)
+    image.save(os.path.join(OUTPUT, filename))
         
 def swap(n, pos, data):
     data[n], data[pos] = data[pos], data[n]
@@ -74,5 +75,5 @@ def get_new_name(realpath):
     filename, extension = os.path.splitext(realpath)
     return filename + "_edit" + extension
     
-    
-tamarin()
+if __name__ == "__main__":    
+    tamarin()
