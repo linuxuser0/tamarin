@@ -4,26 +4,35 @@ from PIL import Image
 CD = os.path.dirname(os.path.realpath(__file__))
 INPUT = os.path.join(CD, "input")
 OUTPUT = os.path.join(CD, "output")
-max_dist = 20 
-pixels_to_modify = 100 
+max_dist = 40 
+pixels_to_modify = 1000
 times = 10 
 
 def tamarin():
     print "Type DELETE OUTPUT to delete output folder and continue"
     if raw_input().lower() != "delete output":
-        print "Way to fail."
+        print "Aborting."
         exit()
 
     reset_output()
     images = os.listdir(INPUT) 
+    for image in images:
+        output(image)
+
+    new_images = []
     done = 0
     total = times*len(images)
+
     for n in range(times):
         for image in images:
-            output(image)
-            mutate(image)
+            new_images.append(mutate(image))
+
             done += 1
-            print "%d%% done." % (float(done)/float(total)*100.0)
+            print "%0.2f%% done." % (float(done)/float(total)*100.0)
+
+        images = new_images
+        new_images = []
+            
 
 def reset_output():
     try:
@@ -37,9 +46,10 @@ def reset_output():
 def output(image):
     realpath = os.path.join(INPUT, image)
     shutil.copy(realpath, OUTPUT)
+        
 
 def mutate(path):
-    realpath = os.path.join(INPUT, path) 
+    realpath = os.path.join(OUTPUT, path) 
     image = Image.open(realpath) 
     data = list(image.getdata())
     size = image.size
@@ -52,8 +62,10 @@ def mutate(path):
 
     image.putdata(data)
     filename = get_new_name(path)
+    print filename
     print os.path.join(OUTPUT, filename)
     image.save(os.path.join(OUTPUT, filename))
+    return filename
         
 def swap(n, pos, data):
     data[n], data[pos] = data[pos], data[n]
@@ -73,7 +85,7 @@ def get_neighbors(a, width, total_len):
     return works
 
 def get_new_name(realpath):
-    filename, extension = os.path.splitext(realpath)
+    filename, extension = os.path.splitext(os.path.basename(realpath))
     return filename + "_edit" + extension
     
 if __name__ == "__main__":    
