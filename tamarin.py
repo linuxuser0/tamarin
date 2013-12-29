@@ -59,6 +59,8 @@ def mutate(path):
         n = random.choice(get_neighbors(pos, size[0], len(data)))
         swap(n, pos, data)
         #print "pos is %d" % pos
+        print "%d out of %d done." % (_, pixels_to_modify)
+
 
     image.putdata(data)
     filename = get_new_name(path)
