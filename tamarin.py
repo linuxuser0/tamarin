@@ -55,7 +55,7 @@ def mutate(path):
     size = image.size
 
     for _ in range(pixels_to_modify):
-        pos = random.randint(0, len(data))
+        pos = random.randint(0, len(data)-1)
         n = random.choice(get_neighbors(pos, size[0], len(data)))
         swap(n, pos, data)
         #print "pos is %d" % pos
