@@ -1,1 +1,3 @@
-For information pertaining to the corpus and for the citations thereof, see http://github.com/linuxuser0/capuchin.
+Works Cited for Image Corpus Used:
+
+A. Torralba and A. Oliva (2003). Statistics of natural image categories. In Network: computation in neural systems. Vol. 14, 391-412.
